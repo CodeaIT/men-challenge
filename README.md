@@ -28,7 +28,8 @@ Please review [VS Code](https://code.visualstudio.com/) plugins at [dev dependen
 Configure environment variables:
 
 Create `.env` file on the project root.
-Please verify required ones at [.env.example](.env.example)
+Please verify required ones at [.env.example](.env.example).
+
 Install npm packages:
 
 ```bash
