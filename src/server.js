@@ -1,11 +1,11 @@
-import cors from 'cors';
 import express from 'express';
-import path from 'path';
+import logger from 'morgan';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
+import path from 'path';
+import cors from 'cors';
 
 const app = express();
-app.use(morgan('dev'));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
