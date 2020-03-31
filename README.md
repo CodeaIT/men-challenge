@@ -21,11 +21,22 @@ Please review [VS Code](https://code.visualstudio.com/) plugins at [dev dependen
 
 ## Installation
 
-Install npm packages and start server.
+Install npm packages:
 
 ```bash
 npm install
+```
+
+Start server:
+
+```bash
 npm start
+```
+
+Start server watching for file changes and reloading automatically using [nodemon](https://github.com/remy/nodemon/).
+
+```bash
+npm run dev
 ```
 
 Output:
