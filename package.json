@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "node --es-module-specifier-resolution=node ./index.js"
+    "start": "node --experimental-modules --es-module-specifier-resolution=node ./index.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
