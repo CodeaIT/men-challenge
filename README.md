@@ -48,6 +48,12 @@ Start server watching for file changes and reloading automatically using [nodemo
 npm run dev
 ```
 
+Running test suite with [mocha](https://mochajs.org/):
+
+```bash
+npm run test
+```
+
 Output:
 
 ```json
