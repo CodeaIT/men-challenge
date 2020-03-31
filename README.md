@@ -33,7 +33,7 @@ Start server:
 npm start
 ```
 
-Start server watching for file changes and reloading automatically using [nodemon](https://github.com/remy/nodemon/).
+Start server watching for file changes and reloading automatically using [nodemon](https://github.com/remy/nodemon/):
 
 ```bash
 npm run dev
