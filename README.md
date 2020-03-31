@@ -13,6 +13,10 @@ nvm install lts/erbium
 nvm use lts/erbium
 ```
 
+### MongoDB
+
+Download [MongoDB v4.0](https://docs.mongodb.com/manual/installation/) or greater.
+
 ### Linter
 
 We use both [eslint](https://eslint.org/) and [prettier](https://prettier.io/).
@@ -21,6 +25,10 @@ Please review [VS Code](https://code.visualstudio.com/) plugins at [dev dependen
 
 ## Installation
 
+Configure environment variables:
+
+Create `.env` file on the project root.
+Please verify required ones at [.env.example](.env.example)
 Install npm packages:
 
 ```bash
@@ -44,6 +52,8 @@ Output:
 ```json
 { "message": "App listening on port 3000!", "level": "info" }
 ```
+
+Please open [http://localhost:3000](http://localhost:3000) in your browser to start the challenge!
 
 ## License
 
