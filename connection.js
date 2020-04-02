@@ -12,8 +12,10 @@ const connectToDatabase = async () => {
     } = process.env;
 
     const mongoOptions = {
+      useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 1000,
     };
 
     const withCredentials = MONGO_USERNAME && MONGO_PASSWORD;
