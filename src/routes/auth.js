@@ -1,16 +1,16 @@
 import express from 'express';
 import userMiddlewares from '../middlewares/user';
-import commonMiddlewares from '../middlewares/common/validators';
+import commonMiddlewares from '../middlewares/common/validations';
 
 const { validateBody } = commonMiddlewares;
-const { validateUser, registerUser } = userMiddlewares;
+const { validateUser, authUser, registerUser } = userMiddlewares;
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send('respond with a resource');
-});
+const validateMiddleware = validateBody(validateUser());
 
-router.post('/register', validateBody(validateUser()), registerUser);
+router.get('/', validateMiddleware, authUser);
+
+router.post('/register', validateMiddleware, registerUser);
 
 export default router;
