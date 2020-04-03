@@ -1,8 +1,9 @@
+import path from 'path';
+import './util/env';
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import path from 'path';
 import cors from 'cors';
 import indexRouter from './routes';
 import apiRouter from './router';

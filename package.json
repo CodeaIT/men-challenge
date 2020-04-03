@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "node --experimental-modules --es-module-specifier-resolution=node ./index.js",
-    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node ./index.js",
-    "test": "mocha --experimental-modules"
+    "start": "node --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
+    "dev": "nodemon --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
+    "test": "NODE_ENV=test mocha --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

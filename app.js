@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import app from './src/server';
 import logger from './src/util/logger';
 import connectToDatabase from './connection';

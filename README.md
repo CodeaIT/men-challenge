@@ -25,10 +25,12 @@ Please review [VS Code](https://code.visualstudio.com/) plugins at [dev dependen
 
 ## Installation
 
-Configure environment variables:
+Create the following files on the `project root`:
 
-Create `.env` file on the project root.
-Please verify required ones at [.env.example](.env.example).
+- `.env` for development
+- `.env.test` for unit testing purposes
+
+Please verify required environment variables at [.env.example](.env.example).
 
 Install npm packages:
 
