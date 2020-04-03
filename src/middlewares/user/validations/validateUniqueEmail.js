@@ -1,5 +1,5 @@
 import expressValidator from 'express-validator';
-import userService from '../../../services/user';
+import userService from '../../../services/userService';
 import locales from '../../../locales/en.json';
 
 const { EMAIL_ALREADY_IN_USE } = locales.user.validations;

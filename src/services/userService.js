@@ -1,6 +1,6 @@
 import models from '../models';
 import locales from '../locales/en.json';
-import { signJwt } from '../util/jwt';
+import { signJwt } from '../util/jwtUtil';
 
 const { USER_NOT_EXISTS, PASSWORD_NOT_VALID } = locales.user.responses;
 const { User } = models;
@@ -24,4 +24,6 @@ const authenticate = async (credentials) => {
   }
 };
 
-export default { findByEmail, create, authenticate };
+const userService = { findByEmail, create, authenticate };
+
+export default userService;

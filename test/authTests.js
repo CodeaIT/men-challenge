@@ -16,7 +16,7 @@ import {
   testEmptyPassword,
   testInvalidEmail,
   testInvalidPasswordLength,
-} from './auth.common';
+} from './authTestsShared';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;

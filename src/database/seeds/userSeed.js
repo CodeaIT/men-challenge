@@ -1,4 +1,4 @@
-const usersData = [
+const userSeed = [
   {
     email: 'challenge1@codeait.com',
     password: 'challenge1',
@@ -9,4 +9,4 @@ const usersData = [
   },
 ];
 
-export default usersData;
+export default userSeed;

@@ -7,6 +7,8 @@ export const signJwt = (payload) => {
   return jwt.sign(payload.toJSON(), JWT_SECRET);
 };
 
-export default {
+const jwtUtil = {
   signJwt,
 };
+
+export default jwtUtil;

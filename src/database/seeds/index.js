@@ -1,5 +1,5 @@
 import User from '../../models/user';
-import usersData from './user';
+import userSeed from './userSeed';
 import logger from '../../util/logger';
 
 const seedModel = async (model, data) => {
@@ -13,7 +13,7 @@ const seedModel = async (model, data) => {
   return model.create(data);
 };
 
-const seedsToComplete = [{ model: User, data: usersData }];
+const seedsToComplete = [{ model: User, data: userSeed }];
 
 const seedDatabase = async () => {
   try {
