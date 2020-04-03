@@ -13,7 +13,12 @@ const { assert } = chai;
 
 const EMAIL_FIELD = 'email';
 const PASSWORD_FIELD = 'password';
-const { EMAIL_NOT_VALID, PASSWORD_INVALID_LENGTH } = locales.user.validations;
+const {
+  EMAIL_NOT_VALID,
+  PASSWORD_INVALID_LENGTH,
+  EMAIL_ALREADY_IN_USE,
+} = locales.user.validations;
+const ALREADY_CREATED_EMAIL = faker.internet.email();
 
 const assertHasFieldErrors = (err, field) => {
   const emailErrors = err.response.data.errors.filter((e) => e.param === field);
@@ -28,6 +33,10 @@ const instance = axios.create({
 describe('Auth Controller', () => {
   before(async () => {
     await User.remove({});
+    await User.create({
+      email: ALREADY_CREATED_EMAIL,
+      password: faker.internet.password(MIN_PASSWORD_LENGTH),
+    });
   });
 
   describe('POST /auth/register', () => {
@@ -87,6 +96,25 @@ describe('Auth Controller', () => {
         assertHasFieldErrors(err, EMAIL_FIELD);
         const invalidEmailErr = err.response.data.errors.shift();
         assert.equal(invalidEmailErr.msg, EMAIL_NOT_VALID);
+      }
+    });
+
+    it('Should return bad request as email already exist', async () => {
+      try {
+        const email = ALREADY_CREATED_EMAIL;
+        const password = faker.internet.password(MIN_PASSWORD_LENGTH);
+
+        await instance.post('/auth/register', {
+          email,
+          password,
+        });
+        assert.fail();
+      } catch (err) {
+        assert.equal(err.response.status, 422);
+        assert.isNotEmpty(err.response.data.errors);
+        assertHasFieldErrors(err, EMAIL_FIELD);
+        const invalidEmailErr = err.response.data.errors.shift();
+        assert.equal(invalidEmailErr.msg, EMAIL_ALREADY_IN_USE);
       }
     });
 
