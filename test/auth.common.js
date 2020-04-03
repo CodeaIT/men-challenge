@@ -79,7 +79,7 @@ export const testInvalidPasswordLength = (instance, route) => async () => {
       min: 0,
       max: minPasswordLength,
     });
-    const password = faker.internet.password(passwordInvalidLength);
+    const password = faker.internet.password().substr(0, passwordInvalidLength);
 
     await instance.post(route, {
       email,
