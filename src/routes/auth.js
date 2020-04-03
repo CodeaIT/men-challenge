@@ -1,16 +1,25 @@
 import express from 'express';
 import userMiddlewares from '../middlewares/user';
 import commonMiddlewares from '../middlewares/common/validations';
+import userValidations from '../middlewares/user/validations';
 
+const {
+  validateEmail,
+  validatePassword,
+  validateUniqueEmail,
+} = userValidations;
 const { validateBody } = commonMiddlewares;
-const { validateUser, authUser, registerUser } = userMiddlewares;
+const { authUser, registerUser } = userMiddlewares;
 
 const router = express.Router();
 
-const validateMiddleware = validateBody(validateUser());
+const commonValidations = [validateEmail, validatePassword];
 
-router.post('/', validateMiddleware, authUser);
+const authMiddlewares = validateBody(commonValidations);
+router.post('/', authMiddlewares, authUser);
 
-router.post('/register', validateMiddleware, registerUser);
+const registerValidations = commonValidations.concat(validateUniqueEmail);
+const registerMiddlewares = validateBody(registerValidations);
+router.post('/register', registerMiddlewares, registerUser);
 
 export default router;

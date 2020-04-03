@@ -2,10 +2,8 @@ import validateEmail from './validateEmail';
 import validatePassword from './validatePassword';
 import validateUniqueEmail from './validateUniqueEmail';
 
-const validateUser = () => [
+export default {
   validateEmail,
   validatePassword,
   validateUniqueEmail,
-];
-
-export default validateUser;
+};
