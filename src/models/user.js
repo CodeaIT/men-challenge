@@ -8,6 +8,9 @@ const { Schema } = mongoose;
 const SALT_WORK_FACTOR = 10;
 export const MIN_PASSWORD_LENGTH = 5;
 
+export const EMAIL_FIELD_NAME = 'email';
+export const PASSWORD_FIELD_NAME = 'password';
+
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -23,7 +26,7 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', async function save(next) {
-  if (!this.isModified('password')) return next();
+  if (!this.isModified(PASSWORD_FIELD_NAME)) return next();
   try {
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
     this.password = await bcrypt.hash(this.password, salt);

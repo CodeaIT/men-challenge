@@ -9,7 +9,7 @@ const router = express.Router();
 
 const validateMiddleware = validateBody(validateUser());
 
-router.get('/', validateMiddleware, authUser);
+router.post('/', validateMiddleware, authUser);
 
 router.post('/register', validateMiddleware, registerUser);
 

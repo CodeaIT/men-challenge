@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import logger from './src/util/logger';
+import logger from '../util/logger';
+import seedDatabase from './seeds';
 
 const connectToDatabase = async () => {
   try {
@@ -34,4 +35,4 @@ const connectToDatabase = async () => {
   }
 };
 
-export default connectToDatabase;
+export default { connectToDatabase, seedDatabase };
