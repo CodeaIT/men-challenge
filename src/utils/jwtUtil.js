@@ -1,10 +1,10 @@
-/* eslint-disable arrow-body-style */
 import jwt from 'jsonwebtoken';
 
 const { JWT_SECRET } = process.env;
 
 export const signJwt = (payload) => {
-  return jwt.sign(payload.toJSON(), JWT_SECRET);
+  const token = jwt.sign(payload.toJSON(), JWT_SECRET);
+  return token;
 };
 
 const jwtUtil = {

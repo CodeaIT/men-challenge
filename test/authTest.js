@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import chai from 'chai';
 import mocha from 'mocha';
 import '../app';
@@ -176,6 +175,7 @@ describe('Auth Controller', () => {
         assert.isNotEmpty(user.data._id);
         assert.equal(user.data.email, email);
         assert.isNotEmpty(user.data.token);
+        assert.isUndefined(user.data.password);
       } catch (err) {
         assert.fail();
       }
