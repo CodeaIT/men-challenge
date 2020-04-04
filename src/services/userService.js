@@ -1,6 +1,6 @@
 import models from '../models';
 import locales from '../locales/en.json';
-import { signJwt } from '../util/jwtUtil';
+import { signJwt } from '../utils/jwtUtil';
 
 const { USER_NOT_EXISTS, PASSWORD_NOT_VALID } = locales.user.responses;
 const { User } = models;

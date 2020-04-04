@@ -1,6 +1,6 @@
 import chai from 'chai';
 import faker from 'faker';
-import { assertHasFieldErrors } from './common';
+import { assertHasFieldErrors } from './testUtil';
 import {
   EMAIL_FIELD_NAME,
   PASSWORD_FIELD_NAME,

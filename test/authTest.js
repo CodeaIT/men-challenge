@@ -9,14 +9,14 @@ import User, {
   EMAIL_FIELD_NAME,
 } from '../src/models/user';
 import locales from '../src/locales/en.json';
-import { assertHasFieldErrors } from './common';
+import { assertHasFieldErrors } from './testUtil';
 import {
   testEmptyBody,
   testEmptyEmail,
   testEmptyPassword,
   testInvalidEmail,
   testInvalidPasswordLength,
-} from './authTestsShared';
+} from './authTestShared';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;

@@ -1,6 +1,6 @@
 import User from '../../models/user';
 import userSeed from './userSeed';
-import logger from '../../util/logger';
+import logger from '../../utils/logger';
 
 const seedModel = async (model, data) => {
   const modelName = model.collection.collectionName;

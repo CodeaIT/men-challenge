@@ -11,15 +11,15 @@ const {
 const { validateBody } = commonMiddlewares;
 const { authUser, registerUser } = userMiddlewares;
 
-const authRoutes = express.Router();
+const authRouter = express.Router();
 
 const commonValidations = [validateEmail, validatePassword];
 
 const authMiddlewares = validateBody(commonValidations);
-authRoutes.post('/', authMiddlewares, authUser);
+authRouter.post('/', authMiddlewares, authUser);
 
 const registerValidations = commonValidations.concat(validateUniqueEmail);
 const registerMiddlewares = validateBody(registerValidations);
-authRoutes.post('/register', registerMiddlewares, registerUser);
+authRouter.post('/register', registerMiddlewares, registerUser);
 
-export default authRoutes;
+export default authRouter;

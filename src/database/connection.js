@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import logger from '../util/logger';
+import logger from '../utils/logger';
 import seedDatabase from './seeds';
 
 const connectToDatabase = async () => {

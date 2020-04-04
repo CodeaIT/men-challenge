@@ -4,7 +4,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { setEnvVariables } from './util/envUtil';
+import { setEnvVariables } from './utils/envUtil';
 import indexRouter from './routes';
 import apiRouter from './router';
 import errorHandler from './middlewares/common/errorHandler';

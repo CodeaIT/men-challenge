@@ -1,5 +1,5 @@
 import app from './src/server';
-import logger from './src/util/logger';
+import logger from './src/utils/logger';
 import connection from './src/database/connection';
 
 const { connectToDatabase, seedDatabase } = connection;
