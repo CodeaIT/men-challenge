@@ -1,5 +1,5 @@
 import jwt from 'express-jwt';
 
-const isAuthorized = jwt({ secret: process.env.JWT_SECRET });
+export const isAuthorized = jwt({ secret: process.env.JWT_SECRET });
 
-export default isAuthorized;
+export default { isAuthorized };
