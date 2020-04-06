@@ -1,4 +1,4 @@
-# Codea IT - men challenge
+# Codea IT - M.E.N. challenge
 
 Node + Express + MongoDB challenge
 
@@ -38,6 +38,8 @@ Install npm packages:
 npm install
 ```
 
+## Running
+
 Start server:
 
 ```bash
@@ -50,19 +52,30 @@ Start server watching for file changes and reloading automatically using [nodemo
 npm run dev
 ```
 
-Running test suite with [mocha](https://mochajs.org/):
-
-```bash
-npm run test
-```
-
 Output:
 
 ```json
 { "message": "App listening on port 3000!", "level": "info" }
 ```
 
-Please open [http://localhost:3000](http://localhost:3000) in your browser to start the challenge!
+## Tests
+
+Running test suite with [mocha](https://mochajs.org/):
+
+```bash
+npm run test
+```
+
+## Challenge
+
+First steps. Either:
+
+- `Fork` this github repository
+- `Create another` github repository and just copy the content.
+
+Just allow public access to review after shipping.
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to start!
 
 ## License
 
