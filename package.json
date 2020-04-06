@@ -2,10 +2,11 @@
   "name": "men-challenge",
   "version": "0.0.1",
   "type": "module",
+  "baseUrlPath": "/api",
   "private": true,
   "scripts": {
     "start": "node --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
-    "dev": "nodemon --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
+    "dev": "nodemon --no-warnings --ignore api-docs.json --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
     "test": "NODE_ENV=test mocha --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node --exit"
   },
   "dependencies": {
@@ -17,10 +18,12 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "express-jwt": "^5.3.1",
+    "express-oas-generator": "^1.0.23",
     "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.7",
     "morgan": "~1.9.1",
+    "swagger-ui-express": "^4.1.4",
     "validator": "^13.0.0",
     "winston": "^3.2.1"
   },

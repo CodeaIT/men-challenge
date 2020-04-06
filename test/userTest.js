@@ -5,6 +5,7 @@ import axios from 'axios';
 import faker from 'faker';
 import { signJwt } from '../src/utils/jwtUtil';
 import User, { MIN_PASSWORD_LENGTH } from '../src/models/user';
+import { updateApiDocs } from './testUtil';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -55,5 +56,6 @@ describe('User Controller', () => {
 
   after(async () => {
     await User.remove({});
+    await updateApiDocs(instance);
   });
 });
