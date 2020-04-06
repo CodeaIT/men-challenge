@@ -49,9 +49,6 @@ describe('Post Controller', () => {
         assert.equal(err.response.status, 401);
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should return bad request as body is empty', async () => {
       try {
         await instance.post(
@@ -68,9 +65,6 @@ describe('Post Controller', () => {
         assertHasFieldErrors(err, AUTHOR_FIELD_NAME);
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should return bad request as title is empty', async () => {
       try {
         const post = {
@@ -89,9 +83,6 @@ describe('Post Controller', () => {
         assertHasFieldErrors(err, TITLE_FIELD_NAME);
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should return bad request as title length is greater than max chars allowed', async () => {
       try {
         const post = {
@@ -116,9 +107,6 @@ describe('Post Controller', () => {
         );
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should return bad request as post body is empty', async () => {
       try {
         const post = {
@@ -137,9 +125,6 @@ describe('Post Controller', () => {
         assertHasFieldErrors(err, BODY_FIELD_NAME);
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should return bad request as post body length is greater than max chars allowed', async () => {
       try {
         const post = {
@@ -164,9 +149,6 @@ describe('Post Controller', () => {
         );
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should return bad request as author id is invalid', async () => {
       try {
         const post = {
@@ -186,9 +168,6 @@ describe('Post Controller', () => {
         assertHasFieldErrors(err, AUTHOR_FIELD_NAME);
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should return bad request as author does not exist', async () => {
       try {
         const post = {
@@ -210,9 +189,6 @@ describe('Post Controller', () => {
         assert.equal(invalidAuthorErr.msg, USER_NOT_EXISTS);
       }
     });
-  });
-
-  describe('POST /posts', () => {
     it('Should create a new post successfully', async () => {
       try {
         const post = {
