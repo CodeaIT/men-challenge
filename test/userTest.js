@@ -56,6 +56,7 @@ describe('User Controller', () => {
 
   after(async () => {
     await User.remove({});
+    // TODO: Must be run after the last executed test
     await updateApiDocs(instance);
   });
 });
