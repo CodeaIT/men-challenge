@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import logger from './src/util/logger';
+import logger from '../utils/logger';
+import seedDatabase from './seeds';
 
 const connectToDatabase = async () => {
   try {
@@ -12,8 +13,10 @@ const connectToDatabase = async () => {
     } = process.env;
 
     const mongoOptions = {
+      useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 1000,
     };
 
     const withCredentials = MONGO_USERNAME && MONGO_PASSWORD;
@@ -32,4 +35,4 @@ const connectToDatabase = async () => {
   }
 };
 
-export default connectToDatabase;
+export default { connectToDatabase, seedDatabase };

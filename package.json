@@ -4,28 +4,38 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "node --experimental-modules --es-module-specifier-resolution=node ./index.js",
-    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node ./index.js",
-    "test": "mocha --experimental-modules"
+    "start": "node --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
+    "dev": "nodemon --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
+    "test": "NODE_ENV=test mocha --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node --exit"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "express-jwt": "^5.3.1",
+    "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.7",
     "morgan": "~1.9.1",
+    "validator": "^13.0.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "axios": "^0.19.2",
+    "chai": "^4.2.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.2",
+    "faker": "^4.1.0",
     "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.2",
+    "sinon": "^9.0.1"
   }
 }

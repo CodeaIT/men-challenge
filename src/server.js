@@ -1,20 +1,32 @@
+import path from 'path';
 import express from 'express';
 import logger from 'morgan';
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import path from 'path';
 import cors from 'cors';
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
+import { setEnvVariables } from './utils/envUtil';
+import indexRouter from './routes';
+import apiRouter from './router';
+import errorHandler from './middlewares/common/errorHandler';
 
-const app = express();
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(process.cwd(), 'public')));
-app.use(cors());
+setEnvVariables();
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+const server = express();
+server.use(logger('dev'));
 
-export default app;
+server.use(cors());
+
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(errorHandler);
+
+server.use(cookieParser());
+server.use(express.static(path.join(process.cwd(), 'public')));
+
+server.use('/', indexRouter);
+server.use('/api', apiRouter);
+server.use(errorHandler);
+
+export default server;
