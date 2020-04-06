@@ -9,5 +9,14 @@
       "PASSWORD_NOT_VALID": "Password is not valid",
       "USER_NOT_EXISTS": "User does not exist"
     }
+  },
+  "post": {
+    "validations": {
+      "TITLE_INVALID_LENGTH": "Title length must be greater than",
+      "BODY_INVALID_LENGTH": "Body length must be greater than"
+    },
+    "responses": {
+      "POST_NOT_EXISTS": "Post does not exist"
+    }
   }
 }
