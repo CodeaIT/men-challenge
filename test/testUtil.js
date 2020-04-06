@@ -18,4 +18,12 @@ export const updateApiDocs = async (instance) => {
   }
 };
 
-export default { assertHasFieldErrors, updateApiDocs };
+export const buildAuthorizationHeader = (token) => ({
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export default {
+  assertHasFieldErrors,
+  updateApiDocs,
+  buildAuthorizationHeader,
+};

@@ -5,7 +5,7 @@ import axios from 'axios';
 import faker from 'faker';
 import { signJwt } from '../src/utils/jwtUtil';
 import User, { MIN_PASSWORD_LENGTH } from '../src/models/user';
-import { updateApiDocs } from './testUtil';
+import { updateApiDocs, buildAuthorizationHeader } from './testUtil';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -42,9 +42,10 @@ describe('User Controller', () => {
       try {
         // TODO: Mock with sinon
         const token = signJwt(existingUser);
-        const user = await instance.get('/users/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const user = await instance.get(
+          '/users/me',
+          buildAuthorizationHeader(token),
+        );
         assert.equal(user.data._id, existingUser._id);
         assert.equal(user.data.email, existingUser.email);
         assert.isUndefined(user.data.password);
