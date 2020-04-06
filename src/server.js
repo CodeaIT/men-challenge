@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import expressOasGenerator from 'express-oas-generator';
 import swaggerUi from 'swagger-ui-express';
+import fs from 'fs';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -10,13 +11,16 @@ import { setEnvVariables } from './utils/envUtil';
 import indexRouter from './routes';
 import apiRouter from './router';
 import errorHandler from './middlewares/common/errorHandler';
-import swaggerDocument from '../api-docs.json';
 
 setEnvVariables();
 
 const NODE_ENV_TEST = 'test';
 const { NODE_ENV } = process.env;
 const swaggerDocumentPath = './api-docs.json';
+let swaggerDocument = {};
+if (fs.existsSync(swaggerDocumentPath)) {
+  swaggerDocument = JSON.parse(fs.readFileSync(swaggerDocumentPath));
+}
 
 const server = express();
 
