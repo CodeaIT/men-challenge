@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import models from '../models';
 import locales from '../locales/en.json';
 import { signJwt } from '../utils/jwtUtil';
@@ -6,6 +7,8 @@ const { USER_NOT_EXISTS, PASSWORD_NOT_VALID } = locales.user.responses;
 const { User } = models;
 
 const findByEmail = (email) => User.findOne({ email });
+
+const findById = (id) => User.findById(id);
 
 const create = (user) => User.create(user);
 
@@ -24,6 +27,6 @@ const authenticate = async (credentials) => {
   }
 };
 
-const userService = { findByEmail, create, authenticate };
+const userService = { findById, findByEmail, create, authenticate };
 
 export default userService;

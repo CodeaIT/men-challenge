@@ -7,4 +7,11 @@ export const assertHasFieldErrors = (err, field) => {
   assert.isNotEmpty(emailErrors);
 };
 
-export default { assertHasFieldErrors };
+export const buildAuthorizationHeader = (token) => ({
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export default {
+  assertHasFieldErrors,
+  buildAuthorizationHeader,
+};
