@@ -70,7 +70,7 @@ npm run test
 
 After running tests, OAS (open api specification) file must be generated as `api-docs.json`:
 
-See swagger-ui docs at [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+Restart your server and see swagger-ui docs at [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ## Challenge
 
