@@ -4,6 +4,10 @@ const { Post } = models;
 
 const create = (post) => Post.create(post);
 
-const postService = { create };
+const findAll = () => Post.find({});
+
+const findById = (id) => Post.findById(id);
+
+const postService = { create, findAll, findById };
 
 export default postService;

@@ -21,6 +21,7 @@ const { assert } = chai;
 
 const { TITLE_INVALID_LENGTH, BODY_INVALID_LENGTH } = locales.post.validations;
 const { USER_NOT_EXISTS } = locales.user.responses;
+const { POST_NOT_EXISTS } = locales.post.responses;
 
 let existingUser = {
   email: faker.internet.email(),
@@ -28,10 +29,18 @@ let existingUser = {
 };
 let existingUserToken;
 
+const generatePost = () => ({
+  title: faker.lorem.words(1),
+  body: faker.lorem.words(5),
+});
+let existingPost;
+
 const { BASE_URL } = process.env;
 const instance = axios.create({
   baseURL: BASE_URL,
 });
+
+const FAKE_OBJECT_ID = '5e8b658cb5297dae7ae1fa8e';
 
 describe('Post Controller', () => {
   before(async () => {
@@ -68,7 +77,7 @@ describe('Post Controller', () => {
     it('Should return bad request as title is empty', async () => {
       try {
         const post = {
-          body: faker.lorem.words(10),
+          body: faker.lorem.words(5),
           author: existingUser._id,
         };
         await instance.post(
@@ -87,7 +96,7 @@ describe('Post Controller', () => {
       try {
         const post = {
           title: faker.lorem.words(MAX_TITLE_LENGTH),
-          body: faker.lorem.words(10),
+          body: faker.lorem.words(5),
           author: existingUser._id,
         };
         await instance.post(
@@ -110,7 +119,7 @@ describe('Post Controller', () => {
     it('Should return bad request as post body is empty', async () => {
       try {
         const post = {
-          title: faker.lorem.words(2),
+          title: faker.lorem.words(1),
           author: existingUser._id,
         };
         await instance.post(
@@ -128,7 +137,7 @@ describe('Post Controller', () => {
     it('Should return bad request as post body length is greater than max chars allowed', async () => {
       try {
         const post = {
-          title: faker.lorem.words(2),
+          title: faker.lorem.words(1),
           body: faker.lorem.words(MAX_BODY_LENGTH),
           author: existingUser._id,
         };
@@ -152,8 +161,8 @@ describe('Post Controller', () => {
     it('Should return bad request as author id is invalid', async () => {
       try {
         const post = {
-          title: faker.lorem.words(2),
-          body: faker.lorem.words(10),
+          title: faker.lorem.words(1),
+          body: faker.lorem.words(5),
           author: faker.random.uuid(),
         };
         await instance.post(
@@ -171,9 +180,9 @@ describe('Post Controller', () => {
     it('Should return bad request as author does not exist', async () => {
       try {
         const post = {
-          title: faker.lorem.words(2),
-          body: faker.lorem.words(10),
-          author: '5e8b658cb5297dae7ae1fa8e',
+          title: faker.lorem.words(1),
+          body: faker.lorem.words(5),
+          author: FAKE_OBJECT_ID,
         };
         await instance.post(
           '/posts',
@@ -192,8 +201,8 @@ describe('Post Controller', () => {
     it('Should create a new post successfully', async () => {
       try {
         const post = {
-          title: faker.lorem.words(2),
-          body: faker.lorem.words(10),
+          title: faker.lorem.words(1),
+          body: faker.lorem.words(5),
           author: existingUser._id,
         };
         const createdPost = await instance.post(
@@ -209,6 +218,102 @@ describe('Post Controller', () => {
       } catch (err) {
         assert.fail();
       }
+    });
+
+    after(async () => {
+      await Post.remove({});
+    });
+  });
+
+  describe('GET /posts', () => {
+    before(async () => {
+      const postToCreate = {
+        ...generatePost(),
+        ...{ author: existingUser._id },
+      };
+      existingPost = await Post.create(postToCreate);
+    });
+
+    it('Should return unauthorized as no header is sent', async () => {
+      try {
+        await instance.get('/posts');
+        assert.fail();
+      } catch (err) {
+        assert.equal(err.response.status, 401);
+      }
+    });
+
+    it('Should return existing posts', async () => {
+      try {
+        const posts = await instance.get(
+          '/posts',
+          buildAuthorizationHeader(existingUserToken),
+        );
+        assert.equal(posts.status, 200);
+        assert.isNotEmpty(posts.data);
+        const foundPost = posts.data.shift();
+        assert.equal(foundPost.author, existingPost.author);
+        assert.equal(foundPost.title, existingPost.title);
+        assert.equal(foundPost.body, existingPost.body);
+        assert.equal(foundPost._id, existingPost._id);
+      } catch (err) {
+        assert.fail();
+      }
+    });
+    after(async () => {
+      await Post.remove({});
+    });
+  });
+
+  describe('GET /posts/:id', () => {
+    before(async () => {
+      const postToCreate = {
+        ...generatePost(),
+        ...{ author: existingUser._id },
+      };
+      existingPost = await Post.create(postToCreate);
+    });
+
+    it('Should return unauthorized as no header is sent', async () => {
+      try {
+        await instance.get(`/posts/${existingPost._id}`);
+        assert.fail();
+      } catch (err) {
+        assert.equal(err.response.status, 401);
+      }
+    });
+
+    it('Should return not found as post does not exist', async () => {
+      try {
+        await instance.get(
+          `/posts/${FAKE_OBJECT_ID}`,
+          buildAuthorizationHeader(existingUserToken),
+        );
+        assert.fail();
+      } catch (err) {
+        assert.equal(err.response.status, 404);
+        assert.equal(err.response.data.message, POST_NOT_EXISTS);
+      }
+    });
+
+    it('Should return post by id successfully', async () => {
+      try {
+        const post = await instance.get(
+          `/posts/${existingPost._id}`,
+          buildAuthorizationHeader(existingUserToken),
+        );
+        assert.equal(post.status, 200);
+        assert.equal(post.data._id, existingPost._id);
+        assert.equal(post.data.title, existingPost.title);
+        assert.equal(post.data.body, existingPost.body);
+        assert.equal(post.data.author, existingPost.author);
+      } catch (err) {
+        assert.fail();
+      }
+    });
+
+    after(async () => {
+      await Post.remove({});
     });
   });
 

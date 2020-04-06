@@ -8,10 +8,11 @@ const {
   validateTitle,
   validateBody: validatePostBody,
   validateAuthorExists,
+  validateId,
 } = postValidations;
 
 const { validateBody } = commonValidations;
-const { createPost } = postMiddlewares;
+const { createPost, findAllPosts, findPostById } = postMiddlewares;
 
 const postRouter = express.Router();
 
@@ -23,5 +24,9 @@ const createPostValidations = [
 
 const createPostMiddleware = validateBody(createPostValidations);
 postRouter.post('/', isAuthorized, createPostMiddleware, createPost);
+
+postRouter.get('/', isAuthorized, findAllPosts);
+
+postRouter.get('/:id', isAuthorized, validateId, findPostById);
 
 export default postRouter;
