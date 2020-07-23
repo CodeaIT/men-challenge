@@ -7,9 +7,11 @@ const findPostById = async (req, res, next) => {
   try {
     const post = await postService.findById(req.params.id);
     if (!post) {
-      return res.status(404).send({ message: POST_NOT_EXISTS });
+      res.status(404).send({ message: POST_NOT_EXISTS });
+      return next();
     }
-    return res.status(200).send(post);
+    res.status(200).send(post);
+    return next();
   } catch (err) {
     return next(err);
   }
