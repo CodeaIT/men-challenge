@@ -4,7 +4,8 @@ const errors = {
 
 const errorHandler = (error, req, res, next) => {
   if (error.name === errors.UNAUTHORIZED) {
-    return res.status(401).send(error);
+    res.status(401).send(error);
+    return next();
   }
   res.status(500).send(error);
   return next();

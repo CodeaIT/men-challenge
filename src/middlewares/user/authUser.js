@@ -1,11 +1,13 @@
 import userService from '../../services/userService';
 
-const authUser = async (req, res) => {
+const authUser = async (req, res, next) => {
   try {
     const user = await userService.authenticate(req.body);
-    return res.status(200).send(user);
+    res.status(200).send(user);
+    return next();
   } catch (err) {
-    return res.status(401).send({ message: err });
+    res.status(401).send({ message: err });
+    return next();
   }
 };
 
