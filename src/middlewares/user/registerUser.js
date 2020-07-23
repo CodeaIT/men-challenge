@@ -3,7 +3,8 @@ import userService from '../../services/userService';
 const registerUser = async (req, res, next) => {
   try {
     const user = await userService.create(req.body);
-    return res.status(200).send(user);
+    res.status(200).send(user);
+    return next();
   } catch (err) {
     return next(err);
   }
