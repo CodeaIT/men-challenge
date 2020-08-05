@@ -7,6 +7,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import { setEnvVariables } from './utils/envUtil';
 import indexRouter from './routes';
 import apiRouter from './router';
@@ -24,12 +25,17 @@ if (fs.existsSync(swaggerDocumentPath)) {
 
 const server = express();
 
+const mongooseModels = mongoose.modelNames();
+const AUTH_TAG = 'Auth';
+
 if (NODE_ENV === NODE_ENV_TEST) {
   expressOasGenerator.handleResponses(server, {
     predefinedSpec(spec) {
       return spec;
     },
     specOutputPath: swaggerDocumentPath,
+    mongooseModels,
+    tags: mongooseModels.concat(AUTH_TAG),
   });
 } else {
   server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
