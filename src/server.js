@@ -1,7 +1,6 @@
 import path from 'path';
 import express from 'express';
 import expressOasGenerator from 'express-oas-generator';
-import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
@@ -15,10 +14,8 @@ import errorHandler from './middlewares/common/errorHandler';
 
 setEnvVariables();
 
-const NODE_ENV_TEST = 'test';
-const { NODE_ENV } = process.env;
 const swaggerDocumentPath = './api-docs.json';
-let swaggerDocument = {};
+let swaggerDocument;
 if (fs.existsSync(swaggerDocumentPath)) {
   swaggerDocument = JSON.parse(fs.readFileSync(swaggerDocumentPath));
 }
@@ -28,18 +25,14 @@ const server = express();
 const mongooseModels = mongoose.modelNames();
 const AUTH_TAG = 'Auth';
 
-if (NODE_ENV === NODE_ENV_TEST) {
-  expressOasGenerator.handleResponses(server, {
-    predefinedSpec(spec) {
-      return spec;
-    },
-    specOutputPath: swaggerDocumentPath,
-    mongooseModels,
-    tags: mongooseModels.concat(AUTH_TAG),
-  });
-} else {
-  server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-}
+expressOasGenerator.handleResponses(server, {
+  predefinedSpec(spec) {
+    return swaggerDocument || spec;
+  },
+  specOutputPath: swaggerDocumentPath,
+  mongooseModels,
+  tags: mongooseModels.concat(AUTH_TAG),
+});
 
 server.use(logger('dev'));
 server.use(cors());
@@ -56,8 +49,6 @@ server.use('/', indexRouter);
 server.use('/api', apiRouter);
 
 server.use(errorHandler);
-if (NODE_ENV === NODE_ENV_TEST) {
-  expressOasGenerator.handleRequests();
-}
+expressOasGenerator.handleRequests();
 
 export default server;

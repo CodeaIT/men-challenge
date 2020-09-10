@@ -11,8 +11,11 @@ export const assertHasFieldErrors = (err, field) => {
 
 export const updateApiDocs = async (instance) => {
   try {
-    const apiSpec = await instance.get('/api-spec');
-    fs.writeFileSync('./api-docs.json', JSON.stringify(apiSpec.data));
+    const apiSpecv2 = await instance.get('/api-spec');
+    fs.writeFileSync('./api-docs.json', JSON.stringify(apiSpecv2.data));
+
+    const apiSpecv3 = await instance.get('/api-spec/v3');
+    fs.writeFileSync('./api-docs_v3.json', JSON.stringify(apiSpecv3.data));
   } catch (err) {
     logger.error(err.response.data);
   }
