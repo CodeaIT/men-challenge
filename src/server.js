@@ -15,7 +15,7 @@ import errorHandler from './middlewares/common/errorHandler';
 setEnvVariables();
 
 const swaggerDocumentPath = './api-docs.json';
-let swaggerDocument = {};
+let swaggerDocument;
 if (fs.existsSync(swaggerDocumentPath)) {
   swaggerDocument = JSON.parse(fs.readFileSync(swaggerDocumentPath));
 }
@@ -26,8 +26,8 @@ const mongooseModels = mongoose.modelNames();
 const AUTH_TAG = 'Auth';
 
 expressOasGenerator.handleResponses(server, {
-  predefinedSpec() {
-    return swaggerDocument;
+  predefinedSpec(spec) {
+    return swaggerDocument || spec;
   },
   specOutputPath: swaggerDocumentPath,
   mongooseModels,
