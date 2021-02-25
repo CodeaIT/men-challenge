@@ -5,7 +5,7 @@ import axios from 'axios';
 import faker from 'faker';
 import { signJwt } from '../src/utils/jwtUtil';
 import User, { MIN_PASSWORD_LENGTH } from '../src/models/user';
-import { updateApiDocs, buildAuthorizationHeader } from './testUtil';
+import { buildAuthorizationHeader } from './testUtil';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -57,7 +57,5 @@ describe('User Controller', () => {
 
   after(async () => {
     await User.remove({});
-    // TODO: Must be run after the last executed test
-    await updateApiDocs(instance);
   });
 });
