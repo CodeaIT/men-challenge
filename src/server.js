@@ -32,6 +32,8 @@ expressOasGenerator.handleResponses(server, {
   specOutputPath: swaggerDocumentPath,
   mongooseModels,
   tags: mongooseModels.concat(AUTH_TAG),
+  ignoredNodeEnvironments: ['development', 'production'],
+  alwaysServeDocs: true,
 });
 
 server.use(logger('dev'));
