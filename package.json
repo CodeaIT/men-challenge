@@ -5,9 +5,9 @@
   "baseUrlPath": "/api",
   "private": true,
   "scripts": {
-    "start": "node --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
-    "dev": "nodemon --no-warnings --ignore api-docs.json --require dotenv/config --experimental-modules --es-module-specifier-resolution=node ./app.js",
-    "test": "NODE_ENV=test mocha --no-warnings --require dotenv/config --experimental-modules --es-module-specifier-resolution=node --exit"
+    "start": "node --no-warnings --es-module-specifier-resolution=node ./app.js",
+    "dev": "nodemon --no-warnings --es-module-specifier-resolution=node ./app.js",
+    "test": "NODE_ENV=test mocha --no-warnings --es-module-specifier-resolution=node --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
