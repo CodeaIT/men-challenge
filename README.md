@@ -6,7 +6,7 @@ Node + Express + MongoDB challenge
 
 ### Node.js
 
-Use [nvm](https://github.com/nvm-sh/nvm) to install node [lts/erbium (v12.16.1)](https://nodejs.org/en/download/) or greater.
+Use [nvm](https://github.com/nvm-sh/nvm) to install node [lts/fermium (v14.x)](https://nodejs.org/en/download/) or greater.
 
 ```bash
 nvm install lts/erbium
