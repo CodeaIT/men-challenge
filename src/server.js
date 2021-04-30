@@ -1,3 +1,4 @@
+import {} from 'dotenv/config';
 import path from 'path';
 import express from 'express';
 import expressOasGenerator from 'express-oas-generator';
