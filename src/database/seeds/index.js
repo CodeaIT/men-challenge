@@ -19,6 +19,7 @@ const seedDatabase = async () => {
   try {
     seedsToComplete.map(async (s) => {
       const seededRecords = await seedModel(s.model, s.data);
+      if (!seededRecords) return;
       logger.info(`Seeded ${seededRecords.length} records:`);
       logger.info(seededRecords);
     });
