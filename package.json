@@ -1,15 +1,23 @@
 {
   "name": "men-challenge",
   "version": "0.0.1",
-  "type": "module",
   "baseUrlPath": "/api",
   "private": true,
   "scripts": {
-    "start": "node --no-warnings --es-module-specifier-resolution=node ./app.js",
-    "dev": "nodemon --no-warnings --es-module-specifier-resolution=node ./app.js",
-    "test": "NODE_ENV=test mocha --no-warnings --es-module-specifier-resolution=node --exit"
+    "clear": "rm -rf dist",
+    "babel-transpile": "babel . -d dist --ignore node_modules --copy-files --no-copy-ignored --include-dotfiles",
+    "install-dist-packages": "cd dist && rm -rf node_modules && npm install && cd ..",
+    "build": "npm run clear && npm run babel-transpile && npm run install-dist-packages",
+    "deploy": "npm run build && serverless deploy --stage=$NODE_ENV",
+    "start": "node dist/app.js",
+    "dev": "nodemon --no-warnings --exec babel-node ./app.js",
+    "test": "NODE_ENV=test mocha --recursive --no-warnings --require @babel/register --exit"
   },
   "dependencies": {
+    "@babel/node": "^7.12.1",
+    "@babel/runtime": "^7.12.1",
+    "@babel/runtime-corejs3": "^7.12.1",
+    "babel-runtime": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bson": "^4.0.4",
@@ -29,9 +37,15 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/register": "^7.12.1",
     "axios": "^0.21.1",
     "chai": "^4.2.0",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.18.2",

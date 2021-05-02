@@ -1,6 +1,4 @@
-import expressValidator from 'express-validator';
-
-const { check } = expressValidator;
+import { check } from 'express-validator';
 
 const validateId = check('id').isString();
 

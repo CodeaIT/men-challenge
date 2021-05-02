@@ -1,6 +1,4 @@
-import expressValidator from 'express-validator';
-
-const { validationResult } = expressValidator;
+import { validationResult } from 'express-validator';
 
 const validateBody = (validations) => async (req, res, next) => {
   await Promise.all(validations.map((validation) => validation.run(req)));
