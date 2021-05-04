@@ -8,7 +8,6 @@
     "babel-transpile": "babel . -d dist --ignore node_modules --copy-files --no-copy-ignored --include-dotfiles",
     "install-dist-packages": "cd dist && rm -rf node_modules && npm install && cd ..",
     "build": "npm run clear && npm run babel-transpile && npm run install-dist-packages",
-    "deploy": "npm run build && serverless deploy --stage=$NODE_ENV",
     "start": "node dist/app.js",
     "dev": "nodemon --no-warnings --exec babel-node ./app.js",
     "test": "NODE_ENV=test mocha --recursive --no-warnings --require @babel/register --exit"
