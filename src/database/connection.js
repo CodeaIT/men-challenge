@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import logger from '../utils/logger';
 import seedDatabase from './seeds';
+import ENVIRONMENTS from '../constants/environments';
 
 const connectToDatabase = async () => {
   try {
@@ -30,6 +31,10 @@ const connectToDatabase = async () => {
       `mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`,
       { ...mongoCredentials, ...mongoOptions },
     );
+
+    if (process.env.NODE_ENV !== ENVIRONMENTS.TEST) {
+      seedDatabase();
+    }
   } catch (error) {
     logger.error(error);
   }
