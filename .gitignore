@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # Generated when running tests
-api-docs*.json
+api_docs*.json

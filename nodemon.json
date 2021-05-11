@@ -1,4 +1,4 @@
 {
   "verbose": false,
-  "ignore": ["api-docs.json", "api-docs_v3.json", "dist/"]
+  "ignore": ["api_docs.json", "api_docs_v3.json", "dist/"]
 }
