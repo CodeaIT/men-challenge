@@ -1,9 +1,8 @@
-import expressValidator from 'express-validator';
+import { check } from 'express-validator';
 import userService from '../../../services/userService';
 import locales from '../../../locales/en.json';
 
 const { USER_NOT_EXISTS } = locales.user.responses;
-const { check } = expressValidator;
 
 const validateAuthorExists = check('author')
   .exists()

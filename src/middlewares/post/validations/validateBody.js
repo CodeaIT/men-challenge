@@ -1,10 +1,8 @@
-import expressValidator from 'express-validator';
+import { check } from 'express-validator';
 import { MAX_BODY_LENGTH } from '../../../models/post';
 import locales from '../../../locales/en.json';
 
 const { BODY_INVALID_LENGTH } = locales.post.validations;
-
-const { check } = expressValidator;
 
 const validateTitle = check('body')
   .isString()
