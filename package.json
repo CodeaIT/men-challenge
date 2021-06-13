@@ -9,7 +9,7 @@
     "build": "npm run clear && npm run babel-transpile && npm run install-dist-packages",
     "start": "node dist/app.js",
     "dev": "nodemon --no-warnings --exec babel-node ./app.js",
-    "test": "NODE_ENV=test mocha --recursive --no-warnings --require @babel/register --exit"
+    "test": "env-cmd -f ./.env.test mocha --recursive --no-warnings --require @babel/register --exit"
   },
   "dependencies": {
     "@babel/node": "^7.12.1",
@@ -43,6 +43,7 @@
     "@babel/register": "^7.12.1",
     "axios": "^0.21.1",
     "chai": "^4.2.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.1",
