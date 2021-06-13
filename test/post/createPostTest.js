@@ -24,6 +24,9 @@ import {
   generatePostWithoutTitle,
 } from '../common/factories/postFactory';
 import errorCodes from '../../src/constants/errorCodes';
+import endpoints from '../../src/constants/endpoints';
+
+const { POSTS } = endpoints;
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -50,10 +53,10 @@ describe('Post Controller', () => {
     existingUserToken = signJwt(existingUser);
   });
 
-  describe('POST /posts', () => {
+  describe(`POST ${POSTS}`, () => {
     it('Should return unauthorized as no header is sent', async () => {
       try {
-        await instance.post('/posts', {});
+        await instance.post(POSTS, {});
         assert.fail();
       } catch (err) {
         assert.equal(err.response.status, 401);
@@ -62,7 +65,7 @@ describe('Post Controller', () => {
     it('Should return bad request as body is empty', async () => {
       try {
         await instance.post(
-          '/posts',
+          POSTS,
           {},
           buildAuthorizationHeader(existingUserToken),
         );
@@ -81,7 +84,7 @@ describe('Post Controller', () => {
           author: existingUser._id,
         });
         await instance.post(
-          '/posts',
+          POSTS,
           post,
           buildAuthorizationHeader(existingUserToken),
         );
@@ -99,7 +102,7 @@ describe('Post Controller', () => {
         });
 
         await instance.post(
-          '/posts',
+          POSTS,
           post,
           buildAuthorizationHeader(existingUserToken),
         );
@@ -117,7 +120,7 @@ describe('Post Controller', () => {
         const post = generatePostWithoutBody({ author: existingUser._id });
 
         await instance.post(
-          '/posts',
+          POSTS,
           post,
           buildAuthorizationHeader(existingUserToken),
         );
@@ -133,7 +136,7 @@ describe('Post Controller', () => {
         const post = generatePostWithInvalidBody({ author: existingUser._id });
 
         await instance.post(
-          '/posts',
+          POSTS,
           post,
           buildAuthorizationHeader(existingUserToken),
         );
@@ -151,7 +154,7 @@ describe('Post Controller', () => {
         const post = generatePostData({ author: faker.random.uuid() });
 
         await instance.post(
-          '/posts',
+          POSTS,
           post,
           buildAuthorizationHeader(existingUserToken),
         );
@@ -167,7 +170,7 @@ describe('Post Controller', () => {
         const post = generatePostData({ author: mongoose.Types.ObjectId() });
 
         await instance.post(
-          '/posts',
+          POSTS,
           post,
           buildAuthorizationHeader(existingUserToken),
         );
@@ -184,7 +187,7 @@ describe('Post Controller', () => {
       const post = generatePostData({ author: existingUser._id });
 
       const createdPost = await instance.post(
-        '/posts',
+        POSTS,
         post,
         buildAuthorizationHeader(existingUserToken),
       );

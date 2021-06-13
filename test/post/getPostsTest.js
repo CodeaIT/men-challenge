@@ -8,6 +8,9 @@ import { buildAuthorizationHeader } from '../common/utils/testUtil';
 import { signJwt } from '../../src/utils/jwtUtil';
 import { generateUser } from '../common/factories/userFactory';
 import { generatePost } from '../common/factories/postFactory';
+import endpoints from '../../src/constants/endpoints';
+
+const { POSTS } = endpoints;
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -30,14 +33,14 @@ describe('Post Controller', () => {
     existingUserToken = signJwt(existingUser);
   });
 
-  describe('GET /posts', () => {
+  describe(`GET ${POSTS}`, () => {
     before(async () => {
       existingPost = await generatePost({ author: existingUser._id });
     });
 
     it('Should return unauthorized as no header is sent', async () => {
       try {
-        await instance.get('/posts');
+        await instance.get(POSTS);
         assert.fail();
       } catch (err) {
         assert.equal(err.response.status, 401);
@@ -46,7 +49,7 @@ describe('Post Controller', () => {
 
     it('Should return existing posts', async () => {
       const posts = await instance.get(
-        '/posts',
+        POSTS,
         buildAuthorizationHeader(existingUserToken),
       );
       assert.equal(posts.status, 200);

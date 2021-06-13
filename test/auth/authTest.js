@@ -16,6 +16,9 @@ import {
   testInvalidEmail,
   testInvalidPasswordLength,
 } from './authTestShared';
+import endpoints from '../../src/constants/endpoints';
+
+const { POST_AUTH_EMAIL, POST_REGISTER_EMAIL } = endpoints;
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -41,30 +44,30 @@ describe('Auth Controller', () => {
     });
   });
 
-  describe('POST /auth/register', () => {
+  describe(`POST ${POST_REGISTER_EMAIL}`, () => {
     it(
       'Should return bad request as body is empty',
-      testEmptyBody(instance, '/auth/register'),
+      testEmptyBody(instance, POST_REGISTER_EMAIL),
     );
 
     it(
       'Should return bad request as body email is empty',
-      testEmptyEmail(instance, '/auth/register'),
+      testEmptyEmail(instance, POST_REGISTER_EMAIL),
     );
 
     it(
       'Should return bad request as body password is empty',
-      testEmptyPassword(instance, '/auth/register'),
+      testEmptyPassword(instance, POST_REGISTER_EMAIL),
     );
 
     it(
       'Should return bad request as email is not valid',
-      testInvalidEmail(instance, '/auth/register'),
+      testInvalidEmail(instance, POST_REGISTER_EMAIL),
     );
 
     it(
       'Should return bad request as body password is shorter than min length',
-      testInvalidPasswordLength(instance, '/auth/register'),
+      testInvalidPasswordLength(instance, POST_REGISTER_EMAIL),
     );
 
     it('Should return bad request as email already exist', async () => {
@@ -72,7 +75,7 @@ describe('Auth Controller', () => {
         const email = ALREADY_CREATED_EMAIL;
         const password = faker.internet.password(MIN_PASSWORD_LENGTH);
 
-        await instance.post('/auth/register', {
+        await instance.post(POST_REGISTER_EMAIL, {
           email,
           password,
         });
@@ -90,7 +93,7 @@ describe('Auth Controller', () => {
       const email = faker.internet.email();
       const password = faker.internet.password(MIN_PASSWORD_LENGTH);
 
-      const user = await instance.post('/auth/register', {
+      const user = await instance.post(POST_REGISTER_EMAIL, {
         email,
         password,
       });
@@ -101,30 +104,30 @@ describe('Auth Controller', () => {
     });
   });
 
-  describe('POST /auth', () => {
+  describe(`POST ${POST_AUTH_EMAIL}`, () => {
     it(
       'Should return bad request as body is empty',
-      testEmptyBody(instance, '/auth'),
+      testEmptyBody(instance, POST_AUTH_EMAIL),
     );
 
     it(
       'Should return bad request as body email is empty',
-      testEmptyEmail(instance, '/auth'),
+      testEmptyEmail(instance, POST_AUTH_EMAIL),
     );
 
     it(
       'Should return bad request as body password is empty',
-      testEmptyPassword(instance, '/auth'),
+      testEmptyPassword(instance, POST_AUTH_EMAIL),
     );
 
     it(
       'Should return bad request as email is not valid',
-      testInvalidEmail(instance, '/auth'),
+      testInvalidEmail(instance, POST_AUTH_EMAIL),
     );
 
     it(
       'Should return bad request as body password is shorter than min length',
-      testInvalidPasswordLength(instance, '/auth'),
+      testInvalidPasswordLength(instance, POST_AUTH_EMAIL),
     );
 
     it('Should return bad request as user with that email does not exist', async () => {
@@ -132,7 +135,7 @@ describe('Auth Controller', () => {
         const email = faker.internet.email();
         const password = faker.internet.password(MIN_PASSWORD_LENGTH);
 
-        await instance.post('/auth', {
+        await instance.post(POST_AUTH_EMAIL, {
           email,
           password,
         });
@@ -148,7 +151,7 @@ describe('Auth Controller', () => {
         const email = ALREADY_CREATED_EMAIL;
         const password = faker.internet.password(MIN_PASSWORD_LENGTH);
 
-        await instance.post('/auth', {
+        await instance.post(POST_AUTH_EMAIL, {
           email,
           password,
         });
@@ -163,7 +166,7 @@ describe('Auth Controller', () => {
       const email = ALREADY_CREATED_EMAIL;
       const password = ALREADY_CREATED_PASSWORD;
 
-      const user = await instance.post('/auth', {
+      const user = await instance.post(POST_AUTH_EMAIL, {
         email,
         password,
       });

@@ -6,6 +6,9 @@ import { signJwt } from '../../src/utils/jwtUtil';
 import User from '../../src/models/user';
 import { buildAuthorizationHeader } from '../common/utils/testUtil';
 import { generateUser } from '../common/factories/userFactory';
+import endpoints from '../../src/constants/endpoints';
+
+const { GET_USER_ME } = endpoints;
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -24,10 +27,10 @@ describe('User Controller', () => {
     existingUser = await generateUser();
   });
 
-  describe('GET /users/me', () => {
+  describe(`GET ${GET_USER_ME}`, () => {
     it('Should return not authorized (no bearer token)', async () => {
       try {
-        await instance.get('/users/me');
+        await instance.get(GET_USER_ME);
         assert.fail();
       } catch (err) {
         assert.equal(err.response.status, 401);
@@ -40,7 +43,7 @@ describe('User Controller', () => {
       // TODO: Mock with sinon
       const token = signJwt(existingUser);
       const user = await instance.get(
-        '/users/me',
+        GET_USER_ME,
         buildAuthorizationHeader(token),
       );
       assert.equal(user.data._id, existingUser._id);
