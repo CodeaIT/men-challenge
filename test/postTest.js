@@ -199,25 +199,21 @@ describe('Post Controller', () => {
       }
     });
     it('Should create a new post successfully', async () => {
-      try {
-        const post = {
-          title: faker.lorem.words(1),
-          body: faker.lorem.words(5),
-          author: existingUser._id,
-        };
-        const createdPost = await instance.post(
-          '/posts',
-          post,
-          buildAuthorizationHeader(existingUserToken),
-        );
-        assert.equal(createdPost.status, 200);
-        assert.equal(existingUser._id, createdPost.data.author);
-        assert.equal(post.title, createdPost.data.title);
-        assert.equal(post.body, createdPost.data.body);
-        assert.isNotEmpty(createdPost.data.date);
-      } catch (err) {
-        assert.fail();
-      }
+      const post = {
+        title: faker.lorem.words(1),
+        body: faker.lorem.words(5),
+        author: existingUser._id,
+      };
+      const createdPost = await instance.post(
+        '/posts',
+        post,
+        buildAuthorizationHeader(existingUserToken),
+      );
+      assert.equal(createdPost.status, 200);
+      assert.equal(existingUser._id, createdPost.data.author);
+      assert.equal(post.title, createdPost.data.title);
+      assert.equal(post.body, createdPost.data.body);
+      assert.isNotEmpty(createdPost.data.date);
     });
 
     after(async () => {
@@ -244,21 +240,17 @@ describe('Post Controller', () => {
     });
 
     it('Should return existing posts', async () => {
-      try {
-        const posts = await instance.get(
-          '/posts',
-          buildAuthorizationHeader(existingUserToken),
-        );
-        assert.equal(posts.status, 200);
-        assert.isNotEmpty(posts.data);
-        const foundPost = posts.data.shift();
-        assert.equal(foundPost.author, existingPost.author);
-        assert.equal(foundPost.title, existingPost.title);
-        assert.equal(foundPost.body, existingPost.body);
-        assert.equal(foundPost._id, existingPost._id);
-      } catch (err) {
-        assert.fail();
-      }
+      const posts = await instance.get(
+        '/posts',
+        buildAuthorizationHeader(existingUserToken),
+      );
+      assert.equal(posts.status, 200);
+      assert.isNotEmpty(posts.data);
+      const foundPost = posts.data.shift();
+      assert.equal(foundPost.author, existingPost.author);
+      assert.equal(foundPost.title, existingPost.title);
+      assert.equal(foundPost.body, existingPost.body);
+      assert.equal(foundPost._id, existingPost._id);
     });
     after(async () => {
       await Post.remove({});
@@ -297,19 +289,15 @@ describe('Post Controller', () => {
     });
 
     it('Should return post by id successfully', async () => {
-      try {
-        const post = await instance.get(
-          `/posts/${existingPost._id}`,
-          buildAuthorizationHeader(existingUserToken),
-        );
-        assert.equal(post.status, 200);
-        assert.equal(post.data._id, existingPost._id);
-        assert.equal(post.data.title, existingPost.title);
-        assert.equal(post.data.body, existingPost.body);
-        assert.equal(post.data.author, existingPost.author);
-      } catch (err) {
-        assert.fail();
-      }
+      const post = await instance.get(
+        `/posts/${existingPost._id}`,
+        buildAuthorizationHeader(existingUserToken),
+      );
+      assert.equal(post.status, 200);
+      assert.equal(post.data._id, existingPost._id);
+      assert.equal(post.data.title, existingPost.title);
+      assert.equal(post.data.body, existingPost.body);
+      assert.equal(post.data.author, existingPost.author);
     });
 
     after(async () => {

@@ -87,21 +87,17 @@ describe('Auth Controller', () => {
     });
 
     it('Should create the user successfully', async () => {
-      try {
-        const email = faker.internet.email();
-        const password = faker.internet.password(MIN_PASSWORD_LENGTH);
+      const email = faker.internet.email();
+      const password = faker.internet.password(MIN_PASSWORD_LENGTH);
 
-        const user = await instance.post('/auth/register', {
-          email,
-          password,
-        });
+      const user = await instance.post('/auth/register', {
+        email,
+        password,
+      });
 
-        assert.equal(user.status, 200);
-        assert.equal(user.data.email, email);
-        assert.isUndefined(user.data.password);
-      } catch (err) {
-        assert.fail();
-      }
+      assert.equal(user.status, 200);
+      assert.equal(user.data.email, email);
+      assert.isUndefined(user.data.password);
     });
   });
 
@@ -140,6 +136,7 @@ describe('Auth Controller', () => {
           email,
           password,
         });
+        assert.fail();
       } catch (err) {
         assert.equal(err.response.status, 401);
         assert.equal(err.response.data.message, USER_NOT_EXISTS);
@@ -155,6 +152,7 @@ describe('Auth Controller', () => {
           email,
           password,
         });
+        assert.fail();
       } catch (err) {
         assert.equal(err.response.status, 401);
         assert.equal(err.response.data.message, PASSWORD_NOT_VALID);
@@ -162,23 +160,19 @@ describe('Auth Controller', () => {
     });
 
     it('Should login successfully', async () => {
-      try {
-        const email = ALREADY_CREATED_EMAIL;
-        const password = ALREADY_CREATED_PASSWORD;
+      const email = ALREADY_CREATED_EMAIL;
+      const password = ALREADY_CREATED_PASSWORD;
 
-        const user = await instance.post('/auth', {
-          email,
-          password,
-        });
+      const user = await instance.post('/auth', {
+        email,
+        password,
+      });
 
-        assert.equal(user.status, 200);
-        assert.isNotEmpty(user.data._id);
-        assert.equal(user.data.email, email);
-        assert.isNotEmpty(user.data.token);
-        assert.isUndefined(user.data.password);
-      } catch (err) {
-        assert.fail();
-      }
+      assert.equal(user.status, 200);
+      assert.isNotEmpty(user.data._id);
+      assert.equal(user.data.email, email);
+      assert.isNotEmpty(user.data.token);
+      assert.isUndefined(user.data.password);
     });
   });
 

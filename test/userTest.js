@@ -31,6 +31,7 @@ describe('User Controller', () => {
     it('Should return not authorized (no bearer token)', async () => {
       try {
         await instance.get('/users/me');
+        assert.fail();
       } catch (err) {
         assert.equal(err.response.status, 401);
       }
@@ -39,19 +40,15 @@ describe('User Controller', () => {
 
   describe('GET /users/me', () => {
     it('Should return user who signed jwt successfully', async () => {
-      try {
-        // TODO: Mock with sinon
-        const token = signJwt(existingUser);
-        const user = await instance.get(
-          '/users/me',
-          buildAuthorizationHeader(token),
-        );
-        assert.equal(user.data._id, existingUser._id);
-        assert.equal(user.data.email, existingUser.email);
-        assert.isUndefined(user.data.password);
-      } catch (err) {
-        assert.fail();
-      }
+      // TODO: Mock with sinon
+      const token = signJwt(existingUser);
+      const user = await instance.get(
+        '/users/me',
+        buildAuthorizationHeader(token),
+      );
+      assert.equal(user.data._id, existingUser._id);
+      assert.equal(user.data.email, existingUser.email);
+      assert.isUndefined(user.data.password);
     });
   });
 
