@@ -1,11 +1,8 @@
 import { check } from 'express-validator';
-import locales from '../../../locales/en.json';
+import errorCodes from '../../../constants/errorCodes';
 
-const { EMAIL_NOT_VALID } = locales.user.validations;
+const { EMAIL_NOT_VALID } = errorCodes;
 
-const validateEmail = check('email')
-  .exists()
-  .isEmail()
-  .withMessage(EMAIL_NOT_VALID);
+const validateEmail = check('email', EMAIL_NOT_VALID).exists().isEmail();
 
 export default validateEmail;

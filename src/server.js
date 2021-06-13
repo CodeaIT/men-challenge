@@ -6,14 +6,11 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { setEnvVariables } from './utils/envUtil';
 import indexRouter from './routes';
 import apiRouter from './router';
 import errorHandler from './middlewares/common/errorHandler';
 import ENVIRONMENTS from './constants/environments';
 import TAGS from './constants/tags';
-
-setEnvVariables();
 
 const { TEST, DEVELOPMENT, PRODUCTION } = ENVIRONMENTS;
 const { SPEC_OUTPUT_FILE_BEHAVIOR } = expressOasGenerator;
@@ -41,8 +38,6 @@ expressOasGenerator.handleResponses(server, {
 server.use(logger('dev'));
 server.use(cors());
 
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(errorHandler);

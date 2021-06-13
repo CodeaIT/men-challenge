@@ -1,16 +1,16 @@
 import chai from 'chai';
 import faker from 'faker';
-import { assertHasFieldErrors } from './testUtil';
+import { assertHasFieldErrors } from '../common/utils/testUtil';
 import {
   EMAIL_FIELD_NAME,
   PASSWORD_FIELD_NAME,
   MIN_PASSWORD_LENGTH,
-} from '../src/models/user';
-import locales from '../src/locales/en.json';
+} from '../../src/models/user';
+import errorCodes from '../../src/constants/errorCodes';
 
 const { assert } = chai;
 
-const { EMAIL_NOT_VALID, PASSWORD_INVALID_LENGTH } = locales.user.validations;
+const { EMAIL_NOT_VALID, PASSWORD_INVALID_LENGTH } = errorCodes;
 
 export const testEmptyBody = (instance, route) => async () => {
   try {
@@ -91,10 +91,7 @@ export const testInvalidPasswordLength = (instance, route) => async () => {
     assert.isNotEmpty(err.response.data.errors);
     assertHasFieldErrors(err, PASSWORD_FIELD_NAME);
     const invalidPasswordErr = err.response.data.errors.shift();
-    assert.equal(
-      invalidPasswordErr.msg,
-      `${PASSWORD_INVALID_LENGTH} ${MIN_PASSWORD_LENGTH}`,
-    );
+    assert.equal(invalidPasswordErr.msg, PASSWORD_INVALID_LENGTH);
   }
 };
 

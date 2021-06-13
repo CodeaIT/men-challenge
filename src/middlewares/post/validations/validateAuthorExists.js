@@ -1,10 +1,10 @@
 import { check } from 'express-validator';
 import userService from '../../../services/userService';
-import locales from '../../../locales/en.json';
+import errorCodes from '../../../constants/errorCodes';
 
-const { USER_NOT_EXISTS } = locales.user.responses;
+const { USER_NOT_EXISTS, POST_AUTHOR_INVALID } = errorCodes;
 
-const validateAuthorExists = check('author')
+const validateAuthorExists = check('author', POST_AUTHOR_INVALID)
   .exists()
   .isString()
   .custom(async (authorId) => {

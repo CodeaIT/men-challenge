@@ -1,12 +1,12 @@
 import { check } from 'express-validator';
 import { MAX_BODY_LENGTH } from '../../../models/post';
-import locales from '../../../locales/en.json';
+import errorCodes from '../../../constants/errorCodes';
 
-const { BODY_INVALID_LENGTH } = locales.post.validations;
+const { POST_BODY_INVALID_LENGTH, POST_BODY_INVALID } = errorCodes;
 
-const validateTitle = check('body')
+const validateTitle = check('body', POST_BODY_INVALID)
   .isString()
   .isLength({ min: 0, max: MAX_BODY_LENGTH })
-  .withMessage(`${BODY_INVALID_LENGTH} ${MAX_BODY_LENGTH}`);
+  .withMessage(POST_BODY_INVALID_LENGTH);
 
 export default validateTitle;

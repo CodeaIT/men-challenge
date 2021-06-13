@@ -1,7 +1,7 @@
+import errorCodes from '../../constants/errorCodes';
 import postService from '../../services/postService';
-import locales from '../../locales/en.json';
 
-const { POST_NOT_EXISTS } = locales.post.responses;
+const { POST_NOT_EXISTS } = errorCodes;
 
 const findPostById = async (req, res, next) => {
   try {

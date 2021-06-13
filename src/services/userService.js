@@ -1,9 +1,9 @@
 /* eslint-disable object-curly-newline */
 import models from '../models';
-import locales from '../locales/en.json';
 import { signJwt } from '../utils/jwtUtil';
+import errorCodes from '../constants/errorCodes';
 
-const { USER_NOT_EXISTS, PASSWORD_NOT_VALID } = locales.user.responses;
+const { USER_NOT_EXISTS, PASSWORD_NOT_VALID } = errorCodes;
 const { User } = models;
 
 const findByEmail = (email) => User.findOne({ email });

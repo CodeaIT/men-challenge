@@ -1,6 +1,4 @@
 import chai from 'chai';
-import fs from 'fs';
-import logger from '../src/utils/logger';
 
 const { assert } = chai;
 
