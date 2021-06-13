@@ -7,7 +7,7 @@ import User, {
   MIN_PASSWORD_LENGTH,
   EMAIL_FIELD_NAME,
 } from '../../src/models/user';
-import locales from '../../src/locales/en.json';
+import errorCodes from '../../src/constants/errorCodes';
 import { assertHasFieldErrors } from '../common/utils/testUtil';
 import {
   testEmptyBody,
@@ -21,8 +21,8 @@ const { before, after } = mocha;
 const { describe, it } = mocha;
 const { assert } = chai;
 
-const { EMAIL_ALREADY_IN_USE } = locales.user.validations;
-const { PASSWORD_NOT_VALID, USER_NOT_EXISTS } = locales.user.responses;
+const { EMAIL_ALREADY_IN_USE } = errorCodes;
+const { PASSWORD_NOT_VALID, USER_NOT_EXISTS } = errorCodes;
 
 const ALREADY_CREATED_EMAIL = faker.internet.email();
 const ALREADY_CREATED_PASSWORD = faker.internet.password(MIN_PASSWORD_LENGTH);

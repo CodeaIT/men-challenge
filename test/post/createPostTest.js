@@ -6,13 +6,10 @@ import faker from 'faker';
 import mongoose from 'mongoose';
 import User from '../../src/models/user';
 import Post, {
-  MAX_TITLE_LENGTH,
-  MAX_BODY_LENGTH,
   TITLE_FIELD_NAME,
   BODY_FIELD_NAME,
   AUTHOR_FIELD_NAME,
 } from '../../src/models/post';
-import locales from '../../src/locales/en.json';
 import {
   assertHasFieldErrors,
   buildAuthorizationHeader,
@@ -26,13 +23,17 @@ import {
   generatePostWithoutInvalidTitle,
   generatePostWithoutTitle,
 } from '../common/factories/postFactory';
+import errorCodes from '../../src/constants/errorCodes';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
 const { assert } = chai;
 
-const { TITLE_INVALID_LENGTH, BODY_INVALID_LENGTH } = locales.post.validations;
-const { USER_NOT_EXISTS } = locales.user.responses;
+const {
+  POST_TITLE_INVALID_LENGTH,
+  POST_BODY_INVALID_LENGTH,
+  USER_NOT_EXISTS,
+} = errorCodes;
 
 let existingUser;
 let existingUserToken;
@@ -108,10 +109,7 @@ describe('Post Controller', () => {
         assert.isNotEmpty(err.response.data.errors);
         assertHasFieldErrors(err, TITLE_FIELD_NAME);
         const invalidTitleErr = err.response.data.errors.shift();
-        assert.equal(
-          invalidTitleErr.msg,
-          `${TITLE_INVALID_LENGTH} ${MAX_TITLE_LENGTH}`,
-        );
+        assert.equal(invalidTitleErr.msg, POST_TITLE_INVALID_LENGTH);
       }
     });
     it('Should return bad request as post body is empty', async () => {
@@ -145,10 +143,7 @@ describe('Post Controller', () => {
         assert.isNotEmpty(err.response.data.errors);
         assertHasFieldErrors(err, BODY_FIELD_NAME);
         const invalidBodyErr = err.response.data.errors.shift();
-        assert.equal(
-          invalidBodyErr.msg,
-          `${BODY_INVALID_LENGTH} ${MAX_BODY_LENGTH}`,
-        );
+        assert.equal(invalidBodyErr.msg, POST_BODY_INVALID_LENGTH);
       }
     });
     it('Should return bad request as author id is invalid', async () => {

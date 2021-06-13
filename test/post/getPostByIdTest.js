@@ -6,16 +6,16 @@ import mongoose from 'mongoose';
 import User from '../../src/models/user';
 import Post from '../../src/models/post';
 import { signJwt } from '../../src/utils/jwtUtil';
-import locales from '../../src/locales/en.json';
 import { buildAuthorizationHeader } from '../common/utils/testUtil';
 import { generateUser } from '../common/factories/userFactory';
 import { generatePost } from '../common/factories/postFactory';
+import errorCodes from '../../src/constants/errorCodes';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
 const { assert } = chai;
 
-const { POST_NOT_EXISTS } = locales.post.responses;
+const { POST_NOT_EXISTS } = errorCodes;
 
 let existingPost;
 let existingUser;
