@@ -1,11 +1,11 @@
 import chai from 'chai';
 import mocha from 'mocha';
-import '../app';
+import '../../app';
 import axios from 'axios';
-import { signJwt } from '../src/utils/jwtUtil';
-import User from '../src/models/user';
-import { buildAuthorizationHeader } from './common/utils/testUtil';
-import { generateUser } from './common/factories/userFactory';
+import { signJwt } from '../../src/utils/jwtUtil';
+import User from '../../src/models/user';
+import { buildAuthorizationHeader } from '../common/utils/testUtil';
+import { generateUser } from '../common/factories/userFactory';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;

@@ -1,32 +1,31 @@
 import chai from 'chai';
 import mocha from 'mocha';
-import '../app';
+import '../../app';
 import axios from 'axios';
 import faker from 'faker';
 import mongoose from 'mongoose';
-import User from '../src/models/user';
+import User from '../../src/models/user';
 import Post, {
   MAX_TITLE_LENGTH,
   MAX_BODY_LENGTH,
   TITLE_FIELD_NAME,
   BODY_FIELD_NAME,
   AUTHOR_FIELD_NAME,
-} from '../src/models/post';
-import locales from '../src/locales/en.json';
+} from '../../src/models/post';
+import locales from '../../src/locales/en.json';
 import {
   assertHasFieldErrors,
   buildAuthorizationHeader,
-} from './common/utils/testUtil';
-import { signJwt } from '../src/utils/jwtUtil';
-import { generateUser } from './common/factories/userFactory';
+} from '../common/utils/testUtil';
+import { signJwt } from '../../src/utils/jwtUtil';
+import { generateUser } from '../common/factories/userFactory';
 import {
-  generatePost,
   generatePostData,
   generatePostWithInvalidBody,
   generatePostWithoutBody,
   generatePostWithoutInvalidTitle,
   generatePostWithoutTitle,
-} from './common/factories/postFactory';
+} from '../common/factories/postFactory';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -34,12 +33,9 @@ const { assert } = chai;
 
 const { TITLE_INVALID_LENGTH, BODY_INVALID_LENGTH } = locales.post.validations;
 const { USER_NOT_EXISTS } = locales.user.responses;
-const { POST_NOT_EXISTS } = locales.post.responses;
 
 let existingUser;
 let existingUserToken;
-
-let existingPost;
 
 const { BASE_URL } = process.env;
 const instance = axios.create({
@@ -202,82 +198,6 @@ describe('Post Controller', () => {
       assert.equal(post.title, createdPost.data.title);
       assert.equal(post.body, createdPost.data.body);
       assert.isNotEmpty(createdPost.data.date);
-    });
-
-    after(async () => {
-      await Post.remove({});
-    });
-  });
-
-  describe('GET /posts', () => {
-    before(async () => {
-      existingPost = await generatePost({ author: existingUser._id });
-    });
-
-    it('Should return unauthorized as no header is sent', async () => {
-      try {
-        await instance.get('/posts');
-        assert.fail();
-      } catch (err) {
-        assert.equal(err.response.status, 401);
-      }
-    });
-
-    it('Should return existing posts', async () => {
-      const posts = await instance.get(
-        '/posts',
-        buildAuthorizationHeader(existingUserToken),
-      );
-      assert.equal(posts.status, 200);
-      assert.isNotEmpty(posts.data);
-      const foundPost = posts.data.shift();
-      assert.equal(foundPost.author, existingPost.author);
-      assert.equal(foundPost.title, existingPost.title);
-      assert.equal(foundPost.body, existingPost.body);
-      assert.equal(foundPost._id, existingPost._id);
-    });
-    after(async () => {
-      await Post.remove({});
-    });
-  });
-
-  describe('GET /posts/:id', () => {
-    before(async () => {
-      existingPost = await generatePost({ author: existingUser._id });
-    });
-
-    it('Should return unauthorized as no header is sent', async () => {
-      try {
-        await instance.get(`/posts/${existingPost._id}`);
-        assert.fail();
-      } catch (err) {
-        assert.equal(err.response.status, 401);
-      }
-    });
-
-    it('Should return not found as post does not exist', async () => {
-      try {
-        await instance.get(
-          `/posts/${mongoose.Types.ObjectId()}`,
-          buildAuthorizationHeader(existingUserToken),
-        );
-        assert.fail();
-      } catch (err) {
-        assert.equal(err.response.status, 404);
-        assert.equal(err.response.data.message, POST_NOT_EXISTS);
-      }
-    });
-
-    it('Should return post by id successfully', async () => {
-      const post = await instance.get(
-        `/posts/${existingPost._id}`,
-        buildAuthorizationHeader(existingUserToken),
-      );
-      assert.equal(post.status, 200);
-      assert.equal(post.data._id, existingPost._id);
-      assert.equal(post.data.title, existingPost.title);
-      assert.equal(post.data.body, existingPost.body);
-      assert.equal(post.data.author, existingPost.author);
     });
 
     after(async () => {
