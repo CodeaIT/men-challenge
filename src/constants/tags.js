@@ -1,3 +1,3 @@
-const TAGS = ['Auth'];
+const TAGS = ['Auth', 'Translations'];
 
 export default TAGS;
