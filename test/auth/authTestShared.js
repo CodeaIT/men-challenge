@@ -1,12 +1,12 @@
 import chai from 'chai';
 import faker from 'faker';
-import { assertHasFieldErrors } from './testUtil';
+import { assertHasFieldErrors } from '../common/utils/testUtil';
 import {
   EMAIL_FIELD_NAME,
   PASSWORD_FIELD_NAME,
   MIN_PASSWORD_LENGTH,
-} from '../src/models/user';
-import locales from '../src/locales/en.json';
+} from '../../src/models/user';
+import locales from '../../src/locales/en.json';
 
 const { assert } = chai;
 

@@ -3,7 +3,8 @@ import mocha from 'mocha';
 import '../app';
 import axios from 'axios';
 import faker from 'faker';
-import User, { MIN_PASSWORD_LENGTH } from '../src/models/user';
+import mongoose from 'mongoose';
+import User from '../src/models/user';
 import Post, {
   MAX_TITLE_LENGTH,
   MAX_BODY_LENGTH,
@@ -12,8 +13,20 @@ import Post, {
   AUTHOR_FIELD_NAME,
 } from '../src/models/post';
 import locales from '../src/locales/en.json';
-import { assertHasFieldErrors, buildAuthorizationHeader } from './testUtil';
+import {
+  assertHasFieldErrors,
+  buildAuthorizationHeader,
+} from './common/utils/testUtil';
 import { signJwt } from '../src/utils/jwtUtil';
+import { generateUser } from './common/factories/userFactory';
+import {
+  generatePost,
+  generatePostData,
+  generatePostWithInvalidBody,
+  generatePostWithoutBody,
+  generatePostWithoutInvalidTitle,
+  generatePostWithoutTitle,
+} from './common/factories/postFactory';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
@@ -23,16 +36,9 @@ const { TITLE_INVALID_LENGTH, BODY_INVALID_LENGTH } = locales.post.validations;
 const { USER_NOT_EXISTS } = locales.user.responses;
 const { POST_NOT_EXISTS } = locales.post.responses;
 
-let existingUser = {
-  email: faker.internet.email(),
-  password: faker.internet.password(MIN_PASSWORD_LENGTH),
-};
+let existingUser;
 let existingUserToken;
 
-const generatePost = () => ({
-  title: faker.lorem.words(1),
-  body: faker.lorem.words(5),
-});
 let existingPost;
 
 const { BASE_URL } = process.env;
@@ -40,12 +46,10 @@ const instance = axios.create({
   baseURL: BASE_URL,
 });
 
-const FAKE_OBJECT_ID = '5e8b658cb5297dae7ae1fa8e';
-
 describe('Post Controller', () => {
   before(async () => {
     await User.remove({});
-    existingUser = await User.create(existingUser);
+    existingUser = await generateUser();
     existingUserToken = signJwt(existingUser);
   });
 
@@ -76,10 +80,9 @@ describe('Post Controller', () => {
     });
     it('Should return bad request as title is empty', async () => {
       try {
-        const post = {
-          body: faker.lorem.words(5),
+        const post = generatePostWithoutTitle({
           author: existingUser._id,
-        };
+        });
         await instance.post(
           '/posts',
           post,
@@ -94,11 +97,10 @@ describe('Post Controller', () => {
     });
     it('Should return bad request as title length is greater than max chars allowed', async () => {
       try {
-        const post = {
-          title: faker.lorem.words(MAX_TITLE_LENGTH),
-          body: faker.lorem.words(5),
+        const post = generatePostWithoutInvalidTitle({
           author: existingUser._id,
-        };
+        });
+
         await instance.post(
           '/posts',
           post,
@@ -118,10 +120,8 @@ describe('Post Controller', () => {
     });
     it('Should return bad request as post body is empty', async () => {
       try {
-        const post = {
-          title: faker.lorem.words(1),
-          author: existingUser._id,
-        };
+        const post = generatePostWithoutBody({ author: existingUser._id });
+
         await instance.post(
           '/posts',
           post,
@@ -136,11 +136,8 @@ describe('Post Controller', () => {
     });
     it('Should return bad request as post body length is greater than max chars allowed', async () => {
       try {
-        const post = {
-          title: faker.lorem.words(1),
-          body: faker.lorem.words(MAX_BODY_LENGTH),
-          author: existingUser._id,
-        };
+        const post = generatePostWithInvalidBody({ author: existingUser._id });
+
         await instance.post(
           '/posts',
           post,
@@ -160,11 +157,8 @@ describe('Post Controller', () => {
     });
     it('Should return bad request as author id is invalid', async () => {
       try {
-        const post = {
-          title: faker.lorem.words(1),
-          body: faker.lorem.words(5),
-          author: faker.random.uuid(),
-        };
+        const post = generatePostData({ author: faker.random.uuid() });
+
         await instance.post(
           '/posts',
           post,
@@ -179,11 +173,8 @@ describe('Post Controller', () => {
     });
     it('Should return bad request as author does not exist', async () => {
       try {
-        const post = {
-          title: faker.lorem.words(1),
-          body: faker.lorem.words(5),
-          author: FAKE_OBJECT_ID,
-        };
+        const post = generatePostData({ author: mongoose.Types.ObjectId() });
+
         await instance.post(
           '/posts',
           post,
@@ -199,11 +190,8 @@ describe('Post Controller', () => {
       }
     });
     it('Should create a new post successfully', async () => {
-      const post = {
-        title: faker.lorem.words(1),
-        body: faker.lorem.words(5),
-        author: existingUser._id,
-      };
+      const post = generatePostData({ author: existingUser._id });
+
       const createdPost = await instance.post(
         '/posts',
         post,
@@ -223,11 +211,7 @@ describe('Post Controller', () => {
 
   describe('GET /posts', () => {
     before(async () => {
-      const postToCreate = {
-        ...generatePost(),
-        ...{ author: existingUser._id },
-      };
-      existingPost = await Post.create(postToCreate);
+      existingPost = await generatePost({ author: existingUser._id });
     });
 
     it('Should return unauthorized as no header is sent', async () => {
@@ -259,11 +243,7 @@ describe('Post Controller', () => {
 
   describe('GET /posts/:id', () => {
     before(async () => {
-      const postToCreate = {
-        ...generatePost(),
-        ...{ author: existingUser._id },
-      };
-      existingPost = await Post.create(postToCreate);
+      existingPost = await generatePost({ author: existingUser._id });
     });
 
     it('Should return unauthorized as no header is sent', async () => {
@@ -278,7 +258,7 @@ describe('Post Controller', () => {
     it('Should return not found as post does not exist', async () => {
       try {
         await instance.get(
-          `/posts/${FAKE_OBJECT_ID}`,
+          `/posts/${mongoose.Types.ObjectId()}`,
           buildAuthorizationHeader(existingUserToken),
         );
         assert.fail();

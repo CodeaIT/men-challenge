@@ -1,14 +1,14 @@
 import chai from 'chai';
 import mocha from 'mocha';
-import '../app';
+import '../../app';
 import axios from 'axios';
 import faker from 'faker';
 import User, {
   MIN_PASSWORD_LENGTH,
   EMAIL_FIELD_NAME,
-} from '../src/models/user';
-import locales from '../src/locales/en.json';
-import { assertHasFieldErrors } from './testUtil';
+} from '../../src/models/user';
+import locales from '../../src/locales/en.json';
+import { assertHasFieldErrors } from '../common/utils/testUtil';
 import {
   testEmptyBody,
   testEmptyEmail,

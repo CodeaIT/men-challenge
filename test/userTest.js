@@ -2,19 +2,16 @@ import chai from 'chai';
 import mocha from 'mocha';
 import '../app';
 import axios from 'axios';
-import faker from 'faker';
 import { signJwt } from '../src/utils/jwtUtil';
-import User, { MIN_PASSWORD_LENGTH } from '../src/models/user';
-import { buildAuthorizationHeader } from './testUtil';
+import User from '../src/models/user';
+import { buildAuthorizationHeader } from './common/utils/testUtil';
+import { generateUser } from './common/factories/userFactory';
 
 const { before, after } = mocha;
 const { describe, it } = mocha;
 const { assert } = chai;
 
-let existingUser = {
-  email: faker.internet.email(),
-  password: faker.internet.password(MIN_PASSWORD_LENGTH),
-};
+let existingUser;
 
 const { BASE_URL } = process.env;
 const instance = axios.create({
@@ -24,7 +21,7 @@ const instance = axios.create({
 describe('User Controller', () => {
   before(async () => {
     await User.remove({});
-    existingUser = await User.create(existingUser);
+    existingUser = await generateUser();
   });
 
   describe('GET /users/me', () => {
