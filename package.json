@@ -32,7 +32,7 @@
     "mongoose": "^5.12.7",
     "mongoose-to-swagger": "^1.0.3",
     "morgan": "~1.9.1",
-    "validator": "^13.0.0",
+    "validator": "^13.7.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
