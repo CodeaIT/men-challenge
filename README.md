@@ -6,11 +6,11 @@ Node + Express + MongoDB challenge
 
 ### Node.js
 
-Use [nvm](https://github.com/nvm-sh/nvm) to install node [lts/fermium (v14.x)](https://nodejs.org/en/download/) or greater.
+Use [nvm](https://github.com/nvm-sh/nvm) to install node [lts/gallium (v16.x)](https://nodejs.org/en/download/) or greater.
 
 ```bash
-nvm install lts/fermium
-nvm use lts/fermium
+nvm install lts/gallium
+nvm use lts/gallium
 ```
 
 ### MongoDB
